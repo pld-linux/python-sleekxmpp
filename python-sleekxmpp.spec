@@ -64,7 +64,11 @@ rm -rf $RPM_BUILD_ROOT
 	--skip-build \
 	--root $RPM_BUILD_ROOT
 
+%{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/sleekxmpp/test
 %py_postclean
+
+install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
+cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 
 cd py3
 %{__python3} setup.py install \
@@ -72,8 +76,10 @@ cd py3
 	--skip-build \
 	--root $RPM_BUILD_ROOT
 
-%{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/sleekxmpp/test
 %{__rm} -r $RPM_BUILD_ROOT%{py3_sitescriptdir}/sleekxmpp/test
+
+install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
+cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -91,6 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitescriptdir}/sleekxmpp/thirdparty
 %{py_sitescriptdir}/sleekxmpp/util
 %{py_sitescriptdir}/sleekxmpp/xmlstream
+%{_examplesdir}/python-%{module}-%{version}
 
 %files -n python3-sleekxmpp
 %defattr(644,root,root,755)
@@ -106,3 +113,4 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitescriptdir}/sleekxmpp/util
 %{py3_sitescriptdir}/sleekxmpp/xmlstream
 %{py3_sitescriptdir}/sleekxmpp-%{version}-*.egg-info
+%{_examplesdir}/python3-%{module}-%{version}
