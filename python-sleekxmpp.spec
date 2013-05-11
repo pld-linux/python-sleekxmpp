@@ -12,8 +12,10 @@ Group:		Libraries/Python
 Source0:	http://pypi.python.org/packages/source/s/sleekxmpp/%{module}-%{version}.tar.gz
 # Source0-md5:	95f847b64fb84483acfadce425fe42cf
 URL:		https://github.com/fritzy/SleekXMPP
-BuildRequires:	python-devel
-BuildRequires:	python3-devel
+BuildRequires:	python-distribute
+BuildRequires:	python-modules
+BuildRequires:	python3-modules
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 %if %{with tests}
 BuildRequires:	gnupg
