@@ -1,6 +1,7 @@
 #
 # Conditional build:
-%bcond_without	tests	# do not perform "make test"
+%bcond_without	apidocs		# do not build and package API docs
+%bcond_with	tests	# do not perform "make test"
 
 %define 	module	sleekxmpp
 Summary:	Flexible XMPP client/component/server library for Python
@@ -17,6 +18,9 @@ BuildRequires:	python-modules
 BuildRequires:	python3-modules
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+%if %{with apidocs}
+BuildRequires:	sphinx-pdg
+%endif
 %if %{with tests}
 BuildRequires:	gnupg
 %endif
@@ -41,6 +45,17 @@ SleekXMPP is a flexible XMPP library for python that allows you to
 create clients, components or servers for the XMPP protocol. Plug-ins
 can be create to cover every current or future XEP.
 
+%package apidoc
+Summary:	%{module} API documentation
+Summary(pl.UTF-8):	Dokumentacja API %{module}
+Group:		Documentation
+
+%description apidoc
+API documentation for %{module}.
+
+%description apidoc -l pl.UTF-8
+Dokumentacja API %{module}.
+
 %prep
 %setup -q -n %{module}-%{version}
 set -- *
@@ -57,6 +72,13 @@ cd ..
 %{__python} testall.py
 cd py3
 %{__python3} testall.py
+cd ..
+%endif
+
+%if %{with apidocs}
+%{__make} -C docs html
+# remove the sphinx-build leftovers
+%{__rm} docs/_build/html/.buildinfo
 %endif
 
 %install
@@ -116,3 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitescriptdir}/sleekxmpp/xmlstream
 %{py3_sitescriptdir}/sleekxmpp-%{version}-*.egg-info
 %{_examplesdir}/python3-%{module}-%{version}
+
+%files apidoc
+%defattr(644,root,root,755)
+%doc docs/_build/html/*
