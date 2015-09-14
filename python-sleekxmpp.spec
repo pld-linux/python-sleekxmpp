@@ -7,7 +7,7 @@
 Summary:	Flexible XMPP client/component/server library for Python
 Name:		python-%{module}
 Version:	1.1.11
-Release:	2
+Release:	3
 License:	MIT
 Group:		Libraries/Python
 Source0:	http://pypi.python.org/packages/source/s/sleekxmpp/%{module}-%{version}.tar.gz
