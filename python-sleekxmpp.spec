@@ -58,22 +58,10 @@ Dokumentacja API %{module}.
 
 %prep
 %setup -q -n %{module}-%{version}
-set -- *
-install -d py3
-cp -a "$@" py3
 
 %build
-%{__python} setup.py build
-cd py3
-%{__python3} setup.py build
-cd ..
-
-%if %{with tests}
-%{__python} testall.py
-cd py3
-%{__python3} testall.py
-cd ..
-%endif
+%py_build %{?with_tests:test}
+%py3_build %{?with_tests:test}
 
 %if %{with apidocs}
 %{__make} -C docs html
@@ -83,10 +71,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install \
-	--optimize=2 \
-	--skip-build \
-	--root $RPM_BUILD_ROOT
+%py_install
 
 %{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/sleekxmpp/test
 %py_postclean
@@ -94,11 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 
-cd py3
-%{__python3} setup.py install \
-	--optimize=2 \
-	--skip-build \
-	--root $RPM_BUILD_ROOT
+%py3_install
 
 %{__rm} -r $RPM_BUILD_ROOT%{py3_sitescriptdir}/sleekxmpp/test
 
