@@ -17,7 +17,7 @@ BuildRequires:	python-distribute
 BuildRequires:	python-modules
 BuildRequires:	python3-modules
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.710
 %if %{with apidocs}
 BuildRequires:	sphinx-pdg
 %endif
