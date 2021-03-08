@@ -78,6 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python}\1,' \
+      $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}/*/*.py \
+      $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}/*.py
 
 %py3_install
 
@@ -85,6 +88,9 @@ cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
 cp -a examples/* $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python3}\1,' \
+      $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}/*/*.py \
+      $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}/*.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
